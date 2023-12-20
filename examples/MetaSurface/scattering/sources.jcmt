@@ -1,0 +1,14 @@
+<?
+c0 = 299792458;
+keys.k_z = -keys.n_glass*keys.omega/c0;
+?>
+SourceBag {
+  Source {
+    ElectricFieldStrength {
+      PlaneWave {
+        K = [0 0 %(k_z)e]
+        Amplitude = %(A_vec)e
+      }
+    }
+  }
+}

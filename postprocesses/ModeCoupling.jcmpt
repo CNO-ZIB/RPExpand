@@ -1,0 +1,19 @@
+<?
+if ~isfield(keys,'rotation')
+  keys.rotation = 'X:-Z:Y';
+end
+if ~isfield(keys,'position')
+  keys.position = [0 0 0];
+end
+?>
+PostProcess {  
+  ModeOverlap{
+    FieldBagPath = "%(field)s"
+    ModeFileName = "%(modeFile)s"
+    OutputFileName = "%(outFile)s"
+    Port {
+      Position = %(position)e
+      Rotation = %(rotation)s
+    }
+  }
+}

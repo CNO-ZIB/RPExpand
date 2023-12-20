@@ -1,0 +1,4 @@
+BoundaryCondition {
+  BoundaryId = 1
+  Electromagnetic = TangentialMagnetic
+}

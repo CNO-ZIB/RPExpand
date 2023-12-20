@@ -1,0 +1,13 @@
+SourceBag {
+  Source {
+    ElectricFieldStrength {
+      PlaneWave {
+        Omega = %(omega)e
+        ThetaPhi = [45 45]
+        Incidence = FromAbove
+        SP = [1 1]
+        PowerFluxScaling = UnitNormal
+      }
+    }
+  }
+}

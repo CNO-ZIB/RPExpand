@@ -1,0 +1,20 @@
+Project {
+  Derivatives {
+    Order = %(derivativeOrder)e
+  }
+  Electromagnetics {
+    TimeHarmonic {
+      Scattering {
+      FourierModeRange = [0 0]
+        PML {
+          %(pml)s
+        }
+        FieldComponents = Electric
+        Accuracy {
+          Precision = 1e-9
+          FiniteElementDegree = %(finiteElementDegree)e
+        }
+      }
+    }
+  }
+}

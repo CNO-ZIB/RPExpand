@@ -1,0 +1,12 @@
+<?
+if ~isfield(keys,'normalDirection')
+  keys.normalDirection = '-Y';
+end
+?>
+PostProcess {
+  FourierTransform {
+    FieldBagPath = "%(field)s"
+    OutputFileName = "%(oPath)s"
+    NormalDirection = %(normalDirection)s
+  }
+}

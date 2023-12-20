@@ -1,0 +1,31 @@
+Project {
+  InfoLevel = 3
+  Electromagnetics {
+    TimeHarmonic {
+      ResonanceMode {
+        PML {
+          LogFile = "pml.log"
+          Compartment {
+            Direction = Y
+            StartThicknessLevel = 3
+            MaxThicknessSteps = 0
+          }
+          MaxThicknessSteps = 0
+        }
+        ExpandCylinderSymmetry = %(cylinder)s
+        FieldComponents = Electric
+        BlochVector=[0 0 1]
+        Accuracy {
+          Precision = 1e-9
+          FiniteElementDegree = %(finiteElementDegree)e
+        }
+        SelectionCriterion {
+          NearGuess {
+            Guess = %(guess)e
+            NumberEigenvalues = %(nEvs)e
+          }
+        }
+      }
+    }
+  }
+}

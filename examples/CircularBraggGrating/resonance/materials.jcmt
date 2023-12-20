@@ -1,0 +1,83 @@
+Material {  
+  Name = "Au" 
+  DomainId = 1
+  RelPermittivity {
+    RefractiveIndex {
+      N = %(n_Au)e
+      K = %(k_Au)e
+    }
+  }
+  RelPermeability = 1.0
+} 
+
+Material {
+  Name = "SiO2"
+  DomainId = 2
+  RelPermittivity {
+    RefractiveIndex {
+      N = %(n_SiO2)e
+      K = 0.0
+    }
+  }
+  RelPermeability = 1.0
+}
+
+Material {
+  Name = "HSQ"
+  DomainId = 3
+  RelPermittivity {
+    RefractiveIndex {
+      N = %(n_HSQ)e
+      K = 0.0
+    }
+  }
+  RelPermeability = 1.0
+}
+ 
+Material {
+  Name = "CBG"
+  DomainId = [33 333]
+  RelPermittivity {
+    RefractiveIndex {
+      N = %(n_CBG)e
+      K = 0.0
+    }
+  }
+  RelPermeability = 1.0
+}
+ 
+Material {  
+  Name = "ITO" 
+  DomainId = 4
+  RelPermittivity {
+    RefractiveIndex {
+      N = %(n_ITO)e
+      K = %(k_ITO)e
+    }
+  }
+  RelPermeability = 1.0 
+} 
+
+Material {  
+  Name = "Cladding" 
+  DomainId = 5 
+  RelPermittivity {
+    RefractiveIndex {
+      N = %(n_Cladding)e
+      K = 0.0
+    }
+  }
+  RelPermeability = 1.0
+} 
+
+Material {  
+  Name = "Core" 
+  DomainId = 55 
+  RelPermittivity {
+    RefractiveIndex {
+      N = %(n_Core)e
+      K = 0.0
+    }
+  }
+  RelPermeability = 1.0
+} 

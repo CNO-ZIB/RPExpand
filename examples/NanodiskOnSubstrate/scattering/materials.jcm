@@ -1,0 +1,35 @@
+Material {
+  DomainId = 1
+  Name = "Si02"
+  RelPermeability = 1
+  RelPermittivity = 2.084
+}
+
+Material {
+  DomainId = 2
+  Name = "ITO"
+  RelPermeability = 1.0
+  RelPermittivity {
+    Constant = 3.8813
+    DrudePole {
+      Damping = 1.2781e14
+      PlasmaFrequency = 3.0305e15
+    }
+  }
+}
+
+Material {
+  DomainId = 3
+  Name = "AlGaAs"
+  RelPermeability = 1
+  RelPermittivity = 10.81
+}
+
+Material {
+  DomainId = 4
+  Name = "Air"
+  RelPermeability = 1.0
+  RelPermittivity = 1.0
+}
+
+

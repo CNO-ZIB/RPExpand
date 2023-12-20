@@ -1,0 +1,26 @@
+Layout {
+  Name = "Fiber"
+  UnitOfLength = 1.0e-9
+  
+  Circle {
+    Name = "ComputationalDomain"
+    DomainId = 1
+    Priority = -1
+    RefineAll = 3
+    Radius = 20000
+    BoundarySegment {
+      BoundaryId = 1
+    }
+  }
+  
+  Circle {
+    Name = "SMFCore"
+    DomainId = 2
+    Priority = 1
+    Radius = %(r_Core)e
+    RefineAll = 3
+    MeshOptions {
+      MaximumArea = 1.0e6
+    }
+  }
+}

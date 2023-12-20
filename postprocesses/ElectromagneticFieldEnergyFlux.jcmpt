@@ -1,0 +1,42 @@
+<?
+if ~isfield(keys,'interfaceType')
+  keys.interfaceType = 'ExteriorDomain';
+end
+if isfield(keys,'domainIdPairs')
+  dIP = mat2str(keys.domainIdPairs);
+  dIP = sprintf('\n    DomainIdPairs = %s',dIP);
+  keys.interfaceType = [keys.interfaceType dIP];
+end
+if ~isfield(keys,'fieldIds') || length(keys.fieldIds)==1
+  keys.fieldIds = [1 1];
+end
+keys.Id = keys.fieldIds(1); keys.Id_ = keys.fieldIds(2);
+?>
+PostProcess { 
+  FluxIntegration { 
+    InterfaceType = %(interfaceType)s
+    FieldBagPath = "%(field)s"
+    OutputFileName = "%(oPath)s"
+    Python { 
+      IntegrationOrder = %(integrationOrder)e
+      IntegralName = "ElectromagneticFieldEnergyFlux"
+      Expression = "value = 0.5*cross(E,conj(H))"
+      Parameter { 
+        Name = "E" 
+        FieldValue { 
+          FieldBagPath = "%(field)s" 
+          FieldIds = %(Id)e
+          Quantity = "ElectricFieldStrength" 
+        }
+      }
+      Parameter { 
+        Name = "H" 
+        FieldValue { 
+          FieldBagPath = "%(circfield)s" 
+          FieldIds = %(Id_)e
+          Quantity = "MagneticFieldStrength" 
+        }
+      }
+    }
+  }
+}

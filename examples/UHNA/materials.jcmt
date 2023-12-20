@@ -1,0 +1,23 @@
+Material {
+  Name = "UHNA Core"
+  DomainId = 2
+  RelPermittivity {
+    RefractiveIndex {
+      N = %(n_Core)e
+      K = 0.0
+    }
+  }
+  RelPermeability = 1.0
+}
+
+Material {
+  Name = "UHNA Cladding"
+  DomainId = 1
+  RelPermittivity {
+    RefractiveIndex {
+      N = %(n_Cladding)e
+      K = 0.0
+    }
+  }
+  RelPermeability = 1.0
+}

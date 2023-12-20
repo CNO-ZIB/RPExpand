@@ -1,0 +1,15 @@
+PostProcess {
+  ExportFields {
+    FieldBagPath = "%(field)s"
+    OutputFileName = "%(oPath)s"
+    OutputQuantity = "%(quantity)s"
+    %(localFieldOnly)s
+    KeepDerivatives = %(keepDerivatives)s
+    Format = %(format)s
+    Cartesian {
+      %(X)s
+      %(Y)s
+      %(Z)s
+    }
+  }
+}

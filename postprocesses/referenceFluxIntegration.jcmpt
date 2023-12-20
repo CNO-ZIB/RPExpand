@@ -1,0 +1,19 @@
+<?
+if ~isfield(keys,'interfaceType')
+  keys.interfaceType = 'ExteriorDomain';
+end
+if isfield(keys,'domainIdPairs')
+  dIP = mat2str(keys.domainIdPairs);
+  dIP = sprintf('\n    DomainIdPairs = %s',dIP);
+  keys.interfaceType = [keys.interfaceType dIP];
+end
+?>
+PostProcess {
+  FluxIntegration {
+    InterfaceType = %(interfaceType)s
+    FieldBagPath = "%(field)s"
+    OutputFileName = "%(oPath)s"
+    OutputQuantity = %(outputQuantity)s
+  }
+}
+

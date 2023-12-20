@@ -1,0 +1,20 @@
+<? if isfield(keys,'points') ?>
+PostProcess {
+  ExportFields {
+    FieldBagPath = "%(field)s"
+    OutputFileName = "%(oPath)s"
+    OutputQuantity = ElectricFieldStrength
+    AddSingularFields = no
+    PointList {
+      Points = %(points)e
+    }
+  }
+}
+<? else ?>
+PostProcess {
+  DipoleEmission {
+    FieldBagPath = "%(field)s"
+    OutputFileName = "%(oPath)s"
+  }
+}
+<? end ?>

@@ -1,0 +1,109 @@
+<?
+  keys.scaling = -keys.height/sind(keys.alpha)^2*pi/360;
+?>
+DerivativeParameter {
+  Name = "radius"
+  TreeEntry = Layout2D/Objects/Trapezoid/Width
+}
+DerivativeParameter {
+  Name = "height"
+  TreeEntry = Layout2D/Objects/Trapezoid/Height
+}
+DerivativeParameter {
+  Name = "alpha"
+  TreeEntry = Layout2D/Objects/Trapezoid/InnerAngles(2)
+  TreeEntry {
+    Path = Layout2D/Objects/Trapezoid/Width
+    Scaling = %(scaling)e
+  }
+}
+DerivativeParameter {
+  Name = "dSpacer"
+  TreeEntry = Layout2D/Objects/Spacer/Height
+}
+DerivativeParameter {
+  Name = "dITO"
+  TreeEntry = Layout2D/Objects/ITO/Height
+}
+Layout2D {
+  UnitOfLength = 1e-09
+  MeshOptions {
+    MaximumSideLength = %(hGlobal)e
+  }
+  CoordinateSystem = Cylindrical
+  Objects {
+    Trapezoid {
+      Priority = 2
+      Name = "Resonator"
+      InnerAngles = [90 %(alpha)e]
+      DomainId = 3
+      Port = 1
+      Width = %(radius)e
+      Height = %(height)e
+      MeshOptions {
+        MaximumSideLength = %(hResonator)e
+        CornerRefinement {
+          MaximumSideLength = %(hEdges)e
+          Point = [2 3]
+        }
+      }
+    }
+    Parallelogram {
+      Name = "Spacer"
+      DomainId = 1
+      InnerAngle = 90
+      Port = 4
+      Width = 1000
+      Height = %(dSpacer)e
+      MeshOptions {
+        MaximumSideLength = %(hLayers)e
+      }
+    }
+    Parallelogram {
+      Name = "ITO"
+      DomainId = 2
+      InnerAngle = 90
+      Port = 4
+      Width = 1000
+      Height = %(dITO)e
+      MeshOptions {
+        MaximumSideLength = %(hLayers)e
+      }
+      Alignment {
+        Orientation = Parallel
+        Parent {
+          Domain = "Spacer"
+          Port = 1
+        }
+      }
+    }
+    Parallelogram {
+      Name = "Substrate"
+      DomainId = 1
+      InnerAngle = 90
+      Port = 4
+      Width = 1000
+      Height = 500
+      Alignment {
+        Orientation = Parallel
+        Parent {
+          Domain = "ITO"
+          Port = 1
+        }
+      }
+    }
+    Parallelogram {
+      Priority = ComputationalDomain
+      DomainId = 4
+      Boundary {
+        Class = Transparent
+      }
+      BoundingBox {
+        Name = "ComputationalDomain"
+        Offset = [0 0 0 415]
+      }
+    }
+  }
+  
+}
+

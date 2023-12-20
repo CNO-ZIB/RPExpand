@@ -1,0 +1,125 @@
+Layout2D {
+  Name = "CBG"
+  UnitOfLength = 1e-9
+  CoordinateSystem = Cylindrical 
+  MeshOptions {
+    MaximumSideLength = %(h_global)e
+  }
+  Objects {
+    MultiLayer {
+      Name = "ComputationalDomain"
+      DomainId = 1
+      Priority = ComputationalDomain 
+      Width = %(width_total)e
+      Port = 4
+      # Au
+      Layer {
+        DomainId = 1
+        Height = 250
+      }
+      # SiO2
+      Layer {
+        DomainId = 2
+        Height = %(t_SiO2)e
+      }
+      # HSQ
+      Layer {
+        DomainId = 3
+        Height = %(t_HSQ)e
+      }
+      # ITO
+      Layer {
+        DomainId = 4
+        Height = %(t_ITO)e
+      }
+      # Fiber
+      Layer {
+        DomainId = 5
+        Height = %(fiberLength)e
+      }
+      Boundary {
+        Class = Transparent 
+      }
+    }
+    Parallelogram {
+      Name = "Core"
+      DomainId = 55
+      Priority = 2
+      Port = 4
+      Width = %(r_Core)e
+      Height = %(fiberLength)e
+      MeshOptions {
+        MaximumSideLength = 150
+      }
+    }
+    <?
+      keys.t_inner = keys.t_CBG*0.6;
+      margin = (keys.t_CBG-keys.t_inner)/2;
+      keys.pos_inner = keys.displacement + margin;
+      keys.R_inner = keys.R-margin;
+    ?>
+    Trapezoid {
+      Name = "Inner"
+      DomainId = 333 
+      Priority = 3
+      Port = 1
+      Displacement = [0 %(pos_inner)e]
+      Width = %(R_inner)e
+      Height = %(t_inner)e
+      Deltas = [0 0]
+      MeshOptions {
+        MaximumSideLength = %(h_center)e
+      }
+    }
+    Trapezoid {
+      Name = "Center"
+      DomainId = 33
+      Priority = 2
+      Port = 1
+      Displacement = [0 %(displacement)e]
+      Width = %(R)e
+      Height = %(t_CBG)e
+      Deltas = [0 0]
+      MeshOptions {
+        MaximumSideLength = %(h_flux)e
+        CornerRefinement {
+          Point = [2,3]
+          MaximumSideLength = %(h_corners_center)e
+        }
+      }
+    }
+<?
+  keys.nameOld = '"Center"';
+  for it = 1:keys.nRings
+    keys.nameNew = sprintf('"Ring%d"',it);
+    keys.w = keys.w;
+    keys.W = keys.W;
+?>
+    Trapezoid {
+      Name = %(nameNew)s
+      DomainId = 333
+      Priority = 2
+      Port = 1
+      Height = %(t_CBG)e
+      Width = %(w)e
+      Deltas = [0 0]
+      MeshOptions {
+        MaximumSideLength = %(h_rings)e
+        CornerRefinement {
+          Point = [1,2,3,4]
+          MaximumSideLength = %(h_corners)e
+        }
+      }
+      Alignment {
+        Displacement = [%(W)e 0]
+        Orientation = Parallel
+        Parent {
+          Domain = %(nameOld)s
+          Port = 2
+        }
+      }
+    }
+<?
+    keys.nameOld = keys.nameNew;
+  end
+?>

@@ -1,0 +1,80 @@
+DerivativeParameter {
+  Name = "UpperRadius"
+  TreeEntry = "Layout3D/Extrusion/MultiLayer/UpperRadius/GeometryValues/Cone/Radius"
+}
+
+DerivativeParameter {
+  Name = "Height"
+  TreeEntry = "Layout3D/Extrusion/MultiLayer/Height/Thickness"
+}
+
+Layout3D {
+  UnitOfLength = 1e-9
+  MeshOptions {
+    CurvilinearDegree = 2
+    MaximumSideLength = 150
+  }
+  BoundaryConditions {
+    Boundary {
+      Direction = Horizontal
+      Class = Periodic
+    }
+    Boundary {
+      Direction = Vertical
+      Class = Transparent
+    }
+  }
+  
+  Extrusion {
+    Objects {
+      Polygon {
+        Name = "ComputationalDomain"
+        PeriodicUnitCell {
+          Shape = Tilted
+          LatticeAngle = 90
+          LatticeVectorLengths = [800 ;800 ;]
+        }
+        DomainId = 101
+        Priority = -1
+      }
+      
+      Circle {
+        GlobalPosition = [400, 400]
+        Name = "Cone"
+        DomainId = 102
+        Priority = 1
+        Radius = %(UpperRadius)e
+        MeshOptions {
+          MaximumSideLength = 100
+        }
+      } 
+      
+      
+    }
+    MultiLayer {
+      MeshOptions {
+        MaximumSideLengthZ = 100
+      }
+      Layer {
+        Thickness = 200
+        DomainIdMapping = [101 1, 102 1]
+      }
+      
+      Layer {
+        Name = "Height"
+        Thickness = %(Height)e
+        DomainIdMapping = [101 1, 102 2]
+      }
+      
+      LayerInterface {
+        Name = "UpperRadius"
+        GeometryValues = [Cone/Radius = 150]
+      }
+      
+      Layer {
+        Thickness = 200
+        DomainIdMapping = [101 1, 102 1]
+      }
+    }
+  }
+}

@@ -1,0 +1,57 @@
+<?
+if ~isfield(keys,'domainIds')
+  keys.domainIds = 1;
+end
+if ~isfield(keys,'fieldIds') || length(keys.fieldIds)==1
+  keys.fieldIds = [1 1];
+end
+keys.Id = keys.fieldIds(1); keys.Id_ = keys.fieldIds(2);
+?>
+PostProcess { 
+  DensityIntegration { 
+    DomainIds = %(domainIds)e
+    FieldBagPath = "%(field)s"
+    OutputFileName = "%(oPath)s"
+    Python { 
+      IntegrationOrder = %(integrationOrder)e
+      IntegralName = "ElectromagneticFieldAbsorption"
+      Expression = "value = 0.5j*w*dot(E.T,D.conj())+dot(B.T,H.conj())"
+      Parameter { 
+        Name = "E" 
+        FieldValue { 
+          FieldBagPath = "%(field)s" 
+          FieldIds = %(Id)e
+          Quantity = "ElectricFieldStrength" 
+        }
+      }
+      Parameter { 
+        Name = "w" 
+        VectorValue = %(omega)e
+      }
+      Parameter { 
+        Name = "D" 
+        FieldValue { 
+          FieldBagPath = "%(circfield)s" 
+          FieldIds = %(Id_)e
+          Quantity = "ElectricFluxDensity" 
+        }
+      }
+      Parameter { 
+        Name = "B" 
+        FieldValue { 
+          FieldBagPath = "%(field)s" 
+          FieldIds = %(Id)e
+          Quantity = "MagneticFluxDensity" 
+        }
+      }
+      Parameter { 
+        Name = "H" 
+        FieldValue { 
+          FieldBagPath = "%(circfield)s" 
+          FieldIds = %(Id_)e
+          Quantity = "MagneticFieldStrength" 
+        }
+      }
+    }
+  }
+}

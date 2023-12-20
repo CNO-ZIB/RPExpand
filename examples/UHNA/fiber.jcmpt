@@ -1,0 +1,56 @@
+Project {
+  InfoLevel = 3
+  Electromagnetics {
+    TimeHarmonic {
+      PropagatingMode {
+        Lambda0 = %(lambda0)e
+        FieldComponents = ElectricXYZ
+        Accuracy {
+          Precision=1e-5
+          FiniteElementDegree = %(finiteElementDegree)e
+        }
+        SelectionCriterion {
+          NearGuess {
+            Guess = 1.5
+            NumberEigenvalues = 2
+          }
+        }
+      }
+    }
+  }
+}
+## post processes for mode overlaps with scattering solutions ##
+PostProcess {
+  ExportFields {
+    FieldBagPath = "%(fPath)s"
+    OutputFileName = "%(oPath)s"
+    OutputQuantity = "%(quantity)s"
+    AddSingularFields = %(addSingularFields)s
+    KeepDerivatives = %(keepDerivatives)s
+    Format = %(format)s
+    Cartesian {
+      GridPointsX = %(px)e
+      GridPointsY = %(py)e
+      GridPointsZ = %(pz)e
+    }
+  }
+}
+<?
+if ~isfield(keys,'rotation')
+  keys.rotation = 'X:-Z:Y';
+end
+if ~isfield(keys,'position')
+  keys.position = [0 0 0];
+end
+?>
+PostProcess {  
+  ModeOverlap{
+    FieldBagPath = "%(field)s"
+    ModeFileName = "%(modeFile)s"
+    OutputFileName = "%(outFile)s"
+    Port {
+      Position = %(position)e
+      Rotation = %(rotation)s
+    }
+  }
+}
